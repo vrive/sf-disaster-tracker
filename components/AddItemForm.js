@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Platform, TextInput, Button, Image } from 'react-native';
+import { View, StyleSheet, Text, Platform, TextInput, Button, Image, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+
+import Firebase from '../database/Firebase';
+import Incident from '../models/Incident'
+const fb = Firebase.shared;
+
 
 const AddItemForm = props => {
     const [type, setType] = useState('');
@@ -30,11 +35,11 @@ const AddItemForm = props => {
         (async () => {
             let { status } = await Location.requestPermissionsAsync();
             if (status !== 'granted') {
-                //Alreer('Permission to access location was denied');
+                Alert.alert('Permission needed', 'Location permission is required to add an incident!');
             }
 
-            const result =  await Location.getCurrentPositionAsync({});
-            setLocation({latitude:result.coords.latitude, longitude:result.coords.longitude});
+            const result = await Location.getCurrentPositionAsync({});
+            setLocation({ latitude: result.coords.latitude, longitude: result.coords.longitude });
         })();
     }, []);
 
@@ -43,7 +48,7 @@ const AddItemForm = props => {
             if (Platform.OS !== 'web') {
                 const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
                 if (status !== 'granted') {
-                    alert('camera roll permission is needed to upload pcitures. Pictures are optional.');
+                    Alert.alert('Permission needed', 'Camera roll permission is needed to upload pcitures. *Pictures are optional.');
                 }
             }
         })();
@@ -61,17 +66,29 @@ const AddItemForm = props => {
         }
     };
 
-    const getLocationText = () =>{
-        if(!location){
+    const getLocationText = () => {
+        if (!location) {
             return '';
-        }else{
+        } else {
             return `${location.longitude} , ${location.latitude}`;
         }
-    }
+    };
+
+    const onSubmit = () => {
+        if (!type) {
+            Alert.alert('Type Required', 'Please select an incident type.');
+        } else {
+            const incident = new Incident(type, location, image, notes, props.county);
+            fb.AddIncident(incident).then(()=>{
+                Alert.alert('Success');
+            })
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <View style={[styles.rowItem, styles.textRow]}>
+            <Text style={styles.title}>{props.header}</Text>
+            <View style={styles.rowItem}>
                 <Text style={styles.label}>Type: </Text>
                 <DropDownPicker
                     items={getDropDownItems()}
@@ -85,7 +102,7 @@ const AddItemForm = props => {
                     onChangeItem={item => setType(item.value)}
                 />
             </View>
-            <View style={[styles.rowItem, styles.textRow]}>
+            <View style={styles.rowItem}>
                 <Text style={styles.label}>Location: </Text>
                 <View style={styles.textInputContainer}>
                     <TextInput
@@ -96,7 +113,7 @@ const AddItemForm = props => {
                     />
                 </View>
             </View>
-            <View style={[styles.rowItem, styles.textRow]}>
+            <View style={styles.rowItem}>
                 <Text style={styles.label}>Notes: </Text>
                 <View style={styles.textInputContainer}>
                     <TextInput
@@ -116,9 +133,10 @@ const AddItemForm = props => {
             </View>
             <View style={styles.imageContainer}>
                 {image && <Image borderRadius={20} source={{ uri: image }} style={styles.image} />}
-
             </View>
-
+            <View style={styles.submit}>
+                <Button title='submit' onPress={onSubmit} />
+            </View>
         </View>
     );
 };
@@ -127,7 +145,8 @@ const styles = StyleSheet.create({
     rowItem: {
         flexDirection: "row",
         alignItems: 'center',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        justifyContent: 'space-between'
     },
     label: {
         fontSize: 19,
@@ -138,9 +157,6 @@ const styles = StyleSheet.create({
         borderBottomColor: '#000000',
         borderBottomWidth: 1,
         width: 170
-    },
-    textRow: {
-        justifyContent: 'space-between'
     },
     imageContainer: {
         alignItems: "center",
@@ -153,6 +169,14 @@ const styles = StyleSheet.create({
     },
     removeBtn: {
         padding: 10
+    },
+    title: {
+        fontSize: 30,
+        padding: 10,
+        textAlign: 'center'
+    },
+    submit: {
+        marginTop: 10
     }
 });
 
