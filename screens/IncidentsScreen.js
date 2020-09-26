@@ -1,10 +1,17 @@
 import React from 'react';
-import {View, StyleSheet, Text, Button} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
+import {View} from 'native-base'
 
 class IncidentsScreen extends React.Component {
     render(){
         return (
             <View style={styles.container}>
+                <Text>Incident Page</Text>  
+                <Text>Incident Page</Text>  
+                <Text>Incident Page</Text>  
+                <Text>Incident Page</Text>  
+                <Text>Incident Page</Text>  
+                <Text>Incident Page</Text>  
                 <Text>Incident Page</Text>    
             </View>
         );
@@ -14,10 +21,8 @@ class IncidentsScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
-        backgroundColor: '#ACCCBC',
-        alignItems: 'center',
-        justifyContent: 'center',
+        marginTop: 10,
+        marginLeft:20
     }
 });
 

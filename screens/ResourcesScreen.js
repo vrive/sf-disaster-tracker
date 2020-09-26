@@ -1,15 +1,27 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
-const ResourcesScreen = props => {
-    return (
-        <View style={styles.container}></View>
-    );
+class ResourcesScreen extends React.Component{
+    render(){
+        return (
+            <View style={styles.container}>
+                <Text>HELLOOOO</Text>
+                <Text>HELLOOOO</Text>
+                <Text>HELLOOOO</Text>
+                <Text>HELLOOOO</Text>
+                <Text>HELLOOOO</Text>
+                <Text>HELLOOOO</Text>
+                <Text>HELLOOOO</Text>
+            </View>
+        );
+    }
+    
 };
 
 const styles = StyleSheet.create({
     container:{
-
+        marginTop: 10,
+        marginLeft:20
     }
 });
 

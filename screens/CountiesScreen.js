@@ -10,9 +10,8 @@ class CountiesScreen extends React.Component {
                 <Text>Miami-Dade</Text>
                 <Text>Miami-Dade</Text>
                 <Text>etc</Text>
-                <Button title="Go to Incident page"
-                        onPress={() => this.props.navigation.navigate('Incident')}/>
-    
+                <Button title="Go to Report page"
+                        onPress={() => this.props.navigation.navigate('Report')}/>
             </View>
         );
     };
