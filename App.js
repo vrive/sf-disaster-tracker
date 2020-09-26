@@ -59,7 +59,7 @@ class App extends React.Component {
       <NavigationContainer >
         <Tab.Navigator
           tabBarOptions={{
-          labelStyle: { fontSize: 25, fontFamily: 'Verdana', padding: 10 }
+          labelStyle: { fontSize: 25, padding: 10 }
           }}
         >
             <Tab.Screen 
