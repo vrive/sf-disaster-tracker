@@ -87,26 +87,48 @@ class Firebase {
         
     }
 
-    AddResource = (resource) => {
+    AddResource = async (resource) => {
         const { type, location, photo, notes, county } = resource;
         if (!type || !location) {
             //type and location required
             return;
         }
-        firebase.database().ref('resources').push(
-            {
-                type: type,
-                location: location,
-                photo: photo,
-                notes: notes,
-                county: county
-            },
-            (error) => {
-                if (error) {
-                    console.log(error);
+        if(photo){
+            const remoteUri = await this.getImageRemoteUri(photo);
+            return new Promise((res,rej)=>{
+                firebase.database().ref('resources').push(
+                    {
+                        type: type,
+                        location: location,
+                        photo: remoteUri,
+                        notes: notes,
+                        county: county
+                    },
+                    (error) => {
+                        if (error) {
+                            console.log(error);
+                            rej(error);
+                        }
+                        res();
+                    }
+                );
+            })
+        }else{
+            firebase.database().ref('resources').push(
+                {
+                    type: type,
+                    location: location,
+                    photo: photo,
+                    notes: notes,
+                    county: county
+                },
+                (error) => {
+                    if (error) {
+                        console.log(error);
+                    }
                 }
-            }
-        );
+            );
+        }
     }
 
     GetResources = (county) => {

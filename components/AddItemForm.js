@@ -4,10 +4,20 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 
-import Firebase from '../database/Firebase';
-import Incident from '../models/Incident'
-const fb = Firebase.shared;
+/*
+Example of how to use, must set the following props
+typelist are in /constants/Types
+<AddItemForm header='Add resource' onSubmit={this.onSubmit} typesList={ResourceTypes} county='Miami-Dade' />
 
+example of onsubmit function prop
+onSubmit = (type, location, image, notes, county) => {
+    const incident = new Incident(type, location, image, notes, county);
+    console.log('here')
+    fb.AddIncident(incident).then(() => {
+      Alert.alert('Success');
+    })
+  }
+*/
 
 const AddItemForm = props => {
     const [type, setType] = useState('');
@@ -24,7 +34,7 @@ const AddItemForm = props => {
         let types = props.typesList;
         for (let key in types) {
             items.push({
-                label: types[key], value: key, icon: () => { }
+                label: types[key], value: types[key], icon: () => { }
             });
         }
 
@@ -78,10 +88,7 @@ const AddItemForm = props => {
         if (!type) {
             Alert.alert('Type Required', 'Please select an incident type.');
         } else {
-            const incident = new Incident(type, location, image, notes, props.county);
-            fb.AddIncident(incident).then(()=>{
-                Alert.alert('Success');
-            })
+            props.onSubmit(type, location, image, notes, props.county);
         }
     };
 
