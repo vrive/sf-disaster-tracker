@@ -1,21 +1,93 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+import React, {Component} from 'react';
+import { StyleSheet } from 'react-native';
+import 'react-native-gesture-handler';
 
-export default function App() {
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+import County from './screens/CountiesScreen'
+// import IncidentPage from './screens/IncidentsScreen'
+import MapsPage from './screens/MapScreen'
+import ReportPage from './screens/ReportPage'
+
+// const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+const Settings = createStackNavigator();
+
+
+function Counties() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={County}
+        options={{ tabBarLabel: 'Home!' }}
+      />
+      <Stack.Screen  
+      name="Report" 
+      component={Report}
+      options={{ tabBarLabel: 'Report Page' }} />
+
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function Report() {
+  return (
+    <Settings.Navigator>
+      <Settings.Screen
+        name="Report"
+        component={ReportPage}
+        options={{ tabBarLabel: 'Report' }}
+      />
+      <Settings.Screen
+        name="Maps"
+        component={MapsPage}
+        options={{ tabBarLabel: 'Maps' }}
+      />
+    </Settings.Navigator>
+  );
+}
+
+class App extends React.Component {
+  render(){
+    return (
+      <NavigationContainer >
+        <Tab.Navigator
+          tabBarOptions={{
+          labelStyle: { fontSize: 25, fontFamily: 'Verdana', padding: 10 }
+          }}
+        >
+            <Tab.Screen 
+              name="Home" 
+              component={Counties} 
+            />
+            <Tab.Screen 
+              name="Maps" 
+              component={MapsPage} 
+            />
+        </Tab.Navigator>
+        </NavigationContainer>
+      );
+
+    }
+  
+  }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#ACCCBC',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }
+  
+  });
+
+  
+  
+  export default App;
