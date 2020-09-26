@@ -1,21 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import 'react-native-gesture-handler';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+import Counties from './screens/CountiesScreen'
+import Incident from './screens/IncidentsScreen'
+import BottomTab from './screens/bottomTab'
+
+const Stack = createStackNavigator();
+
+class App extends React.Component {
+  render(){
+    return (
+      <NavigationContainer >
+            <Stack.Navigator >
+              <Stack.Screen  name="Hurricane Disaster Tracking" component={Counties} />
+              <Stack.Screen  name="Incident" component={Incident} />
+              <Stack.Screen name="Tab" component={BottomTab} />
+            </Stack.Navigator>
+        {/* <Tab.Navigator>
+            <Tab.Screen name="Home" component={Counties} />
+            <Tab.Screen name="Maps" component={MapScreen} />
+        </Tab.Navigator> */}
+        </NavigationContainer>
+      );
+
+    }
+  
+  }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#ACCCBC',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  
+    Tab:{
+      flex: 1,
+      fontSize: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }
+  
+  });
+  
+  export default App;
