@@ -6,6 +6,7 @@ import Firebase from '../database/Firebase';
 import { ResourceTypes } from '../constants/Types';
 import Resource from '../models/Resource';
 
+
 const fb = Firebase.shared;
 
 const ResourcesScreen = props => {
@@ -40,15 +41,9 @@ const ResourcesScreen = props => {
                 <View style={styles.btn}>
                     <Button title='ADD' onPress={() => setIsVisibleForm(true)} />
                 </View>
-            </View>
-            <Text>HELLOOOO</Text>
-            <Text>HELLOOOO</Text>
-            <Text>HELLOOOO</Text>
-            <Text>HELLOOOO</Text>
-            <Text>HELLOOOO</Text>
-            <Text>HELLOOOO</Text>
-            <Text>HELLOOOO</Text>
-        </View>
+
+                </View>
+                </View>
     );
 };
 
