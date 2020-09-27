@@ -66,6 +66,12 @@ function Report() {
   );
 }
 
+export let county = 'Broward';
+export function setCounty(newCounty){
+  county = newCounty;
+}
+
+
 class App extends React.Component {
   render(){
     return (

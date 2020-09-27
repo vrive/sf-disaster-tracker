@@ -32,7 +32,7 @@ const ResourcesScreen = props => {
 
     useEffect(() => {
         //MUST change 'broward' to correct value from prop!
-        const county = 'Miami-Dade';
+        const county = props.county;
         const onValueChange = fb.GetResourcesRef(county)
             .orderByChild("county")
             .equalTo(county)
@@ -59,7 +59,7 @@ const ResourcesScreen = props => {
                     header='Add Resource'
                     onSubmit={onSubmit}
                     typesList={ResourceTypes}
-                    county='Miami-Dade'   //<--------needs to be passed down from prop later
+                    county={props.county}   //<--------needs to be passed down from prop later
                     onClose={onClose}
                 />
 

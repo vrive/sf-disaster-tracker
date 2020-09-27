@@ -61,7 +61,7 @@ const IncidentsScreen = props => {
                     header='Add Incident'
                     onSubmit={onSubmit}
                     typesList={IncidentTypes}
-                    county='Miami-Dade'   //<--------needs to be passed down from prop later
+                    county={props.county}  
                     onClose={onClose}
                 />
 
