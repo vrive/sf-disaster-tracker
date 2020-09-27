@@ -41,8 +41,8 @@ const MapScreen = props => {
                     setInitialRegion({
                         latitudeDelta: 0.1,
                         longitudeDelta: 0.1,
-                        latitude: incidents[0].location.latitude,
-                        longitude: incidents[0].location.longitude
+                        latitude: items[0].location.latitude,
+                        longitude: items[0].location.longitude
                     });
                 }
             });
@@ -68,8 +68,8 @@ const MapScreen = props => {
                     setInitialRegion({
                         latitudeDelta: 0.1,
                         longitudeDelta: 0.1,
-                        latitude: incidents[0].location.latitude,
-                        longitude: incidents[0].location.longitude
+                        latitude: items[0].location.latitude,
+                        longitude: items[0].location.longitude
                     });
                 }
             });
@@ -89,6 +89,18 @@ const MapScreen = props => {
 
             >
                 {incidents.map((item, index) => {
+                    return (
+                        <MapView.Marker
+                            coordinate={{
+                                latitude: item.location.latitude,
+                                longitude: item.location.longitude
+                            }}
+                            title={item.type}
+                            description={item.notes}
+                        />
+                    );
+                })}
+                {resources.map((item, index) => {
                     return (
                         <MapView.Marker
                             coordinate={{
