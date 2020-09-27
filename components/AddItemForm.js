@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Platform, TextInput, Button, Image, Alert, Modal } from 'react-native';
+import { View, StyleSheet, Text, Platform, TextInput, Button, Image, Alert, Modal, Picker } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { Icon } from 'react-native-elements'
+import RNPickerSelect from 'react-native-picker-select';
 
 /*
 Example of how to use, must set the following props
@@ -65,6 +66,8 @@ const AddItemForm = props => {
         })();
     }, []);
 
+    
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -89,7 +92,7 @@ const AddItemForm = props => {
         if (!type) {
             Alert.alert('Type Required', 'Please select an incident type.');
         } else {
-            props.onSubmit(type, location, image, notes, props.county);
+            props.onSubmit(type, location, notes, props.county);
         }
     };
 
@@ -106,7 +109,7 @@ const AddItemForm = props => {
                 <Text style={styles.title}>{props.header}</Text>
                 <View style={styles.rowItem}>
                     <Text style={styles.label}>Type: </Text>
-                    <DropDownPicker
+                    <RNPickerSelect
                         items={getDropDownItems()}
                         defaultValue={type}
                         containerStyle={{ height: 40, width: 200 }}
@@ -115,8 +118,12 @@ const AddItemForm = props => {
                             justifyContent: 'flex-start'
                         }}
                         dropDownStyle={{ backgroundColor: '#fafafa' }}
-                        onChangeItem={item => setType(item.value)}
-                    />
+                        onValueChange={item => setType(item.value)}
+                   />
+                        {/* {this.state.data.map(element =>
+                 <Picker.Item label={element} value={element} />
+)}
+                    </Picker> */}
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.label}>Location: </Text>

@@ -23,11 +23,14 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.2.tar.gz",
     "react-native-dropdown-picker": "^3.6.8",
     "react-native-elements": "^2.3.2",
+    "react-native-form-select-picker": "0.0.9",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-maps": "^0.27.1",
+    "react-native-picker-select": "^8.0.0",
     "react-native-safe-area-context": "^3.1.4",
     "react-native-screens": "^2.10.1",
     "react-native-scrollable-tab-view-forked": "^1.1.1",
+    "react-native-select-picker": "0.0.3",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
