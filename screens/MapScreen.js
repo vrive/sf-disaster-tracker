@@ -82,7 +82,7 @@ const MapScreen = props => {
 
         // Stop listening for updates when no longer required
         return () =>
-            fb.GetIncidentsRef(county)
+            fb.GetResourcesRef(county)
                 .off('value', onValueChange);
     }, []);
 
