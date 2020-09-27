@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, Dimensions, Button,TouchableOpacity } from 'react-native';
+import {setCounty} from '../App';
 
 const data = [
     { key: 'Miami-Dade' }, { key: 'Palm Beach' }, { key: 'Broward' }, { key: 'St. Lucie' }, { key: 'Monroe' }, { key: 'Martin' }, { key: 'Indian River' }
@@ -8,12 +9,18 @@ const data = [
 const numColumns = 3;
 
 class CountiesScreen extends React.Component {
+    constructor(){
+        super();
+    }
     renderItem = ({ item, index }) => {
         return (
             <View
                 style={styles.item}
             >
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Report')}>
+                <TouchableOpacity onPress={() => {
+                    setCounty(item.key);
+                    this.props.navigation.navigate('Report',{screen:'Report',params:{county:item.key}});
+                    }}>
                 <Text style={styles.text} > {item.key}</Text>
                 </TouchableOpacity>
                 

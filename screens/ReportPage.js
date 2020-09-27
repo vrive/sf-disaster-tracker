@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Container, Tab, Tabs } from 'native-base';
 import IncidentPage from './IncidentsScreen'
 import ResourceScreen from './ResourcesScreen'
@@ -8,30 +8,32 @@ import ResourceScreen from './ResourcesScreen'
 
 
 
-class ReportPage extends React.Component {
-    render(){
-        return (
-            <Container>
-                    <Tabs >
-                    <Tab style={styles.listItem} heading="Incidents">
-                        <IncidentPage />
-                    </Tab>
-                    <Tab style={styles.listItem} heading="Resources">
-                        <ResourceScreen />
-                    </Tab>
-                    </Tabs>
-                </Container>
+const ReportPage = props => {
+    const { route, navigation } = props;
+    console.log(props);
+    const {county} = route.params;
+    return (
+        <Container>
+            <Tabs >
+                <Tab style={styles.listItem} heading="Incidents">
+                    <IncidentPage county={county} />
+                </Tab>
+                <Tab style={styles.listItem} heading="Resources">
+                    <ResourceScreen county={county} />
+                </Tab>
+            </Tabs>
+        </Container>
 
-        );
-    };
-    }
+    );
+
+}
 
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         backgroundColor: '#ACCCBC'
     },
-    listItem :{
+    listItem: {
         backgroundColor: '#ACCCBC'
     },
 

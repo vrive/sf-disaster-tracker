@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import Firebase from '../database/Firebase';
+import {county} from '../App'
 
 const fb = Firebase.shared;
 
@@ -28,10 +29,10 @@ const MapScreen = props => {
 
     useEffect(() => {
         //MUST change 'broward' to correct value from prop!
-        const county = 'Broward';
-        const onValueChange = fb.GetIncidentsRef(county)
+        const region = county;
+        const onValueChange = fb.GetIncidentsRef(region)
             .orderByChild("county")
-            .equalTo(county)
+            .equalTo(region)
             .on('value', snapshot => {
                 let items = [];
                 let obj = snapshot.val();
@@ -52,16 +53,16 @@ const MapScreen = props => {
 
         // Stop listening for updates when no longer required
         return () =>
-            fb.GetIncidentsRef(county)
+            fb.GetIncidentsRef(region)
                 .off('value', onValueChange);
-    }, []);
+    }, [incidents]);
 
     useEffect(() => {
         //MUST change 'broward' to correct value from prop!
-        const county = 'Broward';
-        const onValueChange = fb.GetResourcesRef(county)
+        const region = county;
+        const onValueChange = fb.GetResourcesRef(region)
             .orderByChild("county")
-            .equalTo(county)
+            .equalTo(region)
             .on('value', snapshot => {
                 let items = [];
                 let obj = snapshot.val();
@@ -82,9 +83,9 @@ const MapScreen = props => {
 
         // Stop listening for updates when no longer required
         return () =>
-            fb.GetResourcesRef(county)
+            fb.GetResourcesRef(region)
                 .off('value', onValueChange);
-    }, []);
+    }, [resources]);
 
     return (
         <View style={styles.container}>

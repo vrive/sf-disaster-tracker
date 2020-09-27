@@ -10,7 +10,7 @@ export const ResourceTypes = {
     NONPERISHABLE: 'Non-perishable food available',
     GAS:'Gas available',
     GENERATOR:'Generator',
-    MEETS: 'Meets available',
+    MEATS: 'Meats available',
     RICE: 'Rice available',
     ICE: 'Ice available'
 }
