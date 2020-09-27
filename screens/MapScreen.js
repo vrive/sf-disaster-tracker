@@ -1,103 +1,109 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import Firebase from '../database/Firebase';
 
 const fb = Firebase.shared;
 
-class MapScreen extends React.Component {
-    constructor(props) {
-        super();
-        this.state = this.getInitialState();
+const MapScreen = props => {
+
+    const [incidents, setIncidents] = useState([]);
+    const [resources, setResources] = useState([]);
+    const [region, setRegion] = useState({
+        latitude: 25.7712,
+        longitude: -80.1895,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
+    });
+    const [initlialRegion, setInitialRegion] = useState({
+        latitude: 25.7712,
+        longitude: -80.1895,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
+    })
+
+    const onRegionChange = (region) => {
+        setRegion(region);
     }
 
-    getInitialState() {
-        return {
-            region: {
-                latitude: 25.7712,
-                longitude: -80.1895,
-                latitudeDelta: 0.1,
-                longitudeDelta: 0.1,
-            },
-            incidents: [],
-            resources: []
-        };
-    }
+    useEffect(() => {
+        //MUST change 'broward' to correct value from prop!
+        const onValueChange = fb.GetIncidentsRef("Broward")
+            .on('value', snapshot => {
+                let items = [];
+                let obj = snapshot.val();
+                for (let key in obj) {
+                    items.push(obj[key]);
+                }
 
-    onRegionChange(region) {
-        this.setState({ region });
-    }
-
-    componentDidMount() {
-        //county needs to be changed to prop
-        fb.GetIncidents("Broward").then((snapshot) => {
-            let incidents = [];
-            let obj = snapshot.val();
-            for (let key in obj) {
-                incidents.push(obj[key]);
-            }
-            this.setState({incidents: incidents});
-            if (incidents.length > 0) {
-                this.setState({
-                    region:
-                    {
+                setIncidents(items);
+                if (items.length > 0) {
+                    setInitialRegion({
                         latitudeDelta: 0.1,
                         longitudeDelta: 0.1,
                         latitude: incidents[0].location.latitude,
                         longitude: incidents[0].location.longitude
-                    }
-                })
-            };
-        });
+                    });
+                }
+            });
 
-        fb.GetResources("Broward").then((snapshot) => {
-            let resources = [];
-            let obj = snapshot.val();
-            for (let key in obj) {
-                resources.push(obj[key]);
-            }
-            this.setState({ resources: resources });
-            if (resources.length > 0) {
-                this.setState({
-                    region:
-                    {
+        // Stop listening for updates when no longer required
+        return () =>
+            fb.GetIncidentsRef("Broward")
+                .off('value', onValueChange);
+    }, [incidents]);
+
+    useEffect(() => {
+        //MUST change 'broward' to correct value from prop!
+        const onValueChange = fb.GetResourcesRef("Broward")
+            .on('value', snapshot => {
+                let items = [];
+                let obj = snapshot.val();
+                for (let key in obj) {
+                    items.push(obj[key]);
+                }
+
+                setResources(items);
+                if (items.length > 0) {
+                    setInitialRegion({
                         latitudeDelta: 0.1,
                         longitudeDelta: 0.1,
-                        latitude: resources[0].location.latitude,
-                        longitude: resources[0].location.longitude
-                    }
-                })
-            };
-        });
-    }
+                        latitude: incidents[0].location.latitude,
+                        longitude: incidents[0].location.longitude
+                    });
+                }
+            });
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <MapView style={styles.map}
-                    initialRegion={this.state.region}
-                    region={this.state.region}
-                    onRegionChange={() => this.onRegionChange()}
+        // Stop listening for updates when no longer required
+        return () =>
+            fb.GetIncidentsRef("Broward")
+                .off('value', onValueChange);
+    }, [incidents]);
 
-                >
-                    {this.state.incidents.map((item, index) => {
-                        return (
-                            <MapView.Marker
-                                coordinate={{
-                                    latitude: item.location.latitude,
-                                    longitude: item.location.longitude
-                                }}
-                                title={item.type}
-                                description={item.notes}
-                            />
-                        );
-                    })}
-                </MapView>
+    return (
+        <View style={styles.container}>
+            <MapView style={styles.map}
+                initialRegion={initlialRegion}
+                region={region}
+                onRegionChange={() => onRegionChange()}
 
-            </View>
-        );
+            >
+                {incidents.map((item, index) => {
+                    return (
+                        <MapView.Marker
+                            coordinate={{
+                                latitude: item.location.latitude,
+                                longitude: item.location.longitude
+                            }}
+                            title={item.type}
+                            description={item.notes}
+                        />
+                    );
+                })}
+            </MapView>
 
-    }
+        </View>
+    );
 
 }
 

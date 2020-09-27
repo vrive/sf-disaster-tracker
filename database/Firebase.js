@@ -131,29 +131,20 @@ class Firebase {
         }
     }
 
-    GetResources = (county) => {
+    GetResourcesRef = (county) => {
         if (!county) {
-            return new Promise((res, rej) => res([]));
+            return null;
         }
-        return firebase.database().ref('resources')
-            .orderByChild("county")
-            .equalTo(county)
-            .once('value', function (snapshot) {
-                return snapshot.val();
-            })
+
+        return firebase.database().ref('resources');
     }
 
-    GetIncidents = (county) => {
+    GetIncidentsRef = (county) => {
         if (!county) {
-            return new Promise((res, rej) => res([]));
+            return null;
         }
 
-        return firebase.database().ref('incidents')
-            .orderByChild("county")
-            .equalTo(county)
-            .once('value', function (snapshot) {
-                return snapshot.val();
-            });
+        return firebase.database().ref('incidents');
     }
 
 }
