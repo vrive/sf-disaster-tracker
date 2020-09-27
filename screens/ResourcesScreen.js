@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Button, Alert } from 'react-native';
 
 import AddItemForm from '../components/AddItemForm';
@@ -11,6 +11,7 @@ const fb = Firebase.shared;
 
 const ResourcesScreen = props => {
     const [isVisibleForm, setIsVisibleForm] = useState(false);
+    const [resources, setResources] = useState([]);
 
     const onSubmit = (type, location, image, notes, county) => {
         const resource = new Resource(type, location, image, notes, county);
@@ -23,9 +24,31 @@ const ResourcesScreen = props => {
         });
     };
 
-    const onClose = () =>{
+    const onClose = () => {
         setIsVisibleForm(false);
     }
+
+    useEffect(() => {
+        //MUST change 'broward' to correct value from prop!
+        const county = 'Miami-Dade';
+        const onValueChange = fb.GetResourcesRef(county)
+            .orderByChild("county")
+            .equalTo(county)
+            .on('value', snapshot => {
+                let items = [];
+                let obj = snapshot.val();
+                for (let key in obj) {
+                    items.push(obj[key]);
+                }
+
+                setResources(items);
+            });
+
+        // Stop listening for updates when no longer required
+        return () =>
+            fb.GetResourcesRef(county)
+                .off('value', onValueChange);
+    }, [isVisibleForm]);
 
     return (
         <View style={styles.container}>
@@ -41,9 +64,13 @@ const ResourcesScreen = props => {
                 <View style={styles.btn}>
                     <Button title='ADD' onPress={() => setIsVisibleForm(true)} />
                 </View>
-
-                </View>
-                </View>
+            </View>
+            {resources.map((item, index) => {
+                return (
+                    <Text>{JSON.stringify(item)}</Text>
+                );
+            })}
+        </View>
     );
 };
 

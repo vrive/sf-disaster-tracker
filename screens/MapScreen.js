@@ -10,16 +10,16 @@ const MapScreen = props => {
     const [incidents, setIncidents] = useState([]);
     const [resources, setResources] = useState([]);
     const [region, setRegion] = useState({
-        latitude: 25.7712,
-        longitude: -80.1895,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1,
+        latitude: 26.015074,
+        longitude: -80.419614,
+        latitudeDelta: 2,
+        longitudeDelta: 2,
     });
     const [initlialRegion, setInitialRegion] = useState({
-        latitude: 25.7712,
-        longitude: -80.1895,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1,
+        latitude: 26.015074,
+        longitude: -80.419614,
+        latitudeDelta: 2,
+        longitudeDelta: 2,
     })
 
     const onRegionChange = (region) => {
@@ -28,7 +28,10 @@ const MapScreen = props => {
 
     useEffect(() => {
         //MUST change 'broward' to correct value from prop!
-        const onValueChange = fb.GetIncidentsRef("Broward")
+        const county = 'Broward';
+        const onValueChange = fb.GetIncidentsRef(county)
+            .orderByChild("county")
+            .equalTo(county)
             .on('value', snapshot => {
                 let items = [];
                 let obj = snapshot.val();
@@ -49,13 +52,16 @@ const MapScreen = props => {
 
         // Stop listening for updates when no longer required
         return () =>
-            fb.GetIncidentsRef("Broward")
+            fb.GetIncidentsRef(county)
                 .off('value', onValueChange);
-    }, [incidents]);
+    }, []);
 
     useEffect(() => {
         //MUST change 'broward' to correct value from prop!
-        const onValueChange = fb.GetResourcesRef("Broward")
+        const county = 'Broward';
+        const onValueChange = fb.GetResourcesRef(county)
+            .orderByChild("county")
+            .equalTo(county)
             .on('value', snapshot => {
                 let items = [];
                 let obj = snapshot.val();
@@ -76,9 +82,9 @@ const MapScreen = props => {
 
         // Stop listening for updates when no longer required
         return () =>
-            fb.GetIncidentsRef("Broward")
+            fb.GetResourcesRef(county)
                 .off('value', onValueChange);
-    }, [incidents]);
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -97,6 +103,7 @@ const MapScreen = props => {
                             }}
                             title={item.type}
                             description={item.notes}
+                            pinColor={'red'}
                         />
                     );
                 })}
@@ -109,6 +116,7 @@ const MapScreen = props => {
                             }}
                             title={item.type}
                             description={item.notes}
+                            pinColor={'green'}
                         />
                     );
                 })}
