@@ -89,11 +89,11 @@ const AddItemForm = props => {
     };
 
     const onSubmit = () => {
-        if (!type) {
-            Alert.alert('Type Required', 'Please select an incident type.');
-        } else {
+        // if (!type) {
+        //     Alert.alert('Type Required', 'Please select an incident type.');
+        // } else {
             props.onSubmit(type, location, notes, props.county);
-        }
+        // }
     };
 
     return (
@@ -120,10 +120,6 @@ const AddItemForm = props => {
                         dropDownStyle={{ backgroundColor: '#fafafa' }}
                         onValueChange={item => setType(item.value)}
                    />
-                        {/* {this.state.data.map(element =>
-                 <Picker.Item label={element} value={element} />
-)}
-                    </Picker> */}
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.label}>Location: </Text>

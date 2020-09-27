@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, Button, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, Text, Button, ActivityIndicator, Alert, FlatList  } from 'react-native';
 import { View } from 'native-base';
 
 import AddItemForm from '../components/AddItemForm';
@@ -43,14 +43,11 @@ const IncidentsScreen = props => {
                 <View style={styles.btn}>
                     <Button title='ADD' onPress={() => setIsVisibleForm(true)} />
                 </View>
+        
+
+
             </View>
-            <Text>Incident Page</Text>
-            <Text>Incident Page</Text>
-            <Text>Incident Page</Text>
-            <Text>Incident Page</Text>
-            <Text>Incident Page</Text>
-            <Text>Incident Page</Text>
-            <Text>Incident Page</Text>
+            
         </View>
     );
 
