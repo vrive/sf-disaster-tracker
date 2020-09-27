@@ -10,16 +10,16 @@ const MapScreen = props => {
     const [incidents, setIncidents] = useState([]);
     const [resources, setResources] = useState([]);
     const [region, setRegion] = useState({
-        latitude: 25.7712,
-        longitude: -80.1895,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1,
+        latitude: 26.015074,
+        longitude: -80.419614,
+        latitudeDelta: 2,
+        longitudeDelta: 2,
     });
     const [initlialRegion, setInitialRegion] = useState({
-        latitude: 25.7712,
-        longitude: -80.1895,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1,
+        latitude: 26.015074,
+        longitude: -80.419614,
+        latitudeDelta: 2,
+        longitudeDelta: 2,
     })
 
     const onRegionChange = (region) => {
@@ -51,7 +51,7 @@ const MapScreen = props => {
         return () =>
             fb.GetIncidentsRef("Broward")
                 .off('value', onValueChange);
-    }, [incidents]);
+    }, []);
 
     useEffect(() => {
         //MUST change 'broward' to correct value from prop!
@@ -78,7 +78,7 @@ const MapScreen = props => {
         return () =>
             fb.GetIncidentsRef("Broward")
                 .off('value', onValueChange);
-    }, [incidents]);
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -97,6 +97,7 @@ const MapScreen = props => {
                             }}
                             title={item.type}
                             description={item.notes}
+                            pinColor={'red'}
                         />
                     );
                 })}
@@ -109,6 +110,7 @@ const MapScreen = props => {
                             }}
                             title={item.type}
                             description={item.notes}
+                            pinColor={'green'}
                         />
                     );
                 })}
