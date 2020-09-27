@@ -1,11 +1,11 @@
-const IncidentTypes = {
+export const IncidentTypes = {
     TREE:'Fallen Tree',
     POWER: 'Power outage',
     FLOOD: 'Flooding',   
     INJURIES:'Injuries' 
 }
 
-const ResourceTypes = {
+export const ResourceTypes = {
     WATER:'Water available',
     NONPERISHABLE: 'Non-perishable food available',
     GAS:'Gas available',
