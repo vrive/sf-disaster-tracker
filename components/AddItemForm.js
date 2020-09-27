@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Platform, TextInput, Button, Image, Alert } from 'react-native';
+import { View, StyleSheet, Text, Platform, TextInput, Button, Image, Alert, Modal } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
@@ -93,62 +93,68 @@ const AddItemForm = props => {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>{props.header}</Text>
-            <View style={styles.rowItem}>
-                <Text style={styles.label}>Type: </Text>
-                <DropDownPicker
-                    items={getDropDownItems()}
-                    defaultValue={type}
-                    containerStyle={{ height: 40, width: 200 }}
-                    style={{ backgroundColor: '#fafafa' }}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{ backgroundColor: '#fafafa' }}
-                    onChangeItem={item => setType(item.value)}
-                />
-            </View>
-            <View style={styles.rowItem}>
-                <Text style={styles.label}>Location: </Text>
-                <View style={styles.textInputContainer}>
-                    <TextInput
-                        editable={false}
-                        maxLength={40}
-                        onChangeText={text => setNotes(text)}
-                        value={getLocationText()}
+        <Modal visible={props.visible} animationType='slide'>
+            <View style={styles.container}>
+                <Text style={styles.title}>{props.header}</Text>
+                <View style={styles.rowItem}>
+                    <Text style={styles.label}>Type: </Text>
+                    <DropDownPicker
+                        items={getDropDownItems()}
+                        defaultValue={type}
+                        containerStyle={{ height: 40, width: 200 }}
+                        style={{ backgroundColor: '#fafafa' }}
+                        itemStyle={{
+                            justifyContent: 'flex-start'
+                        }}
+                        dropDownStyle={{ backgroundColor: '#fafafa' }}
+                        onChangeItem={item => setType(item.value)}
                     />
                 </View>
-            </View>
-            <View style={styles.rowItem}>
-                <Text style={styles.label}>Notes: </Text>
-                <View style={styles.textInputContainer}>
-                    <TextInput
-                        maxLength={40}
-                        multiline
-                        onChangeText={text => setNotes(text)}
-                        value={notes}
-                    />
+                <View style={styles.rowItem}>
+                    <Text style={styles.label}>Location: </Text>
+                    <View style={styles.textInputContainer}>
+                        <TextInput
+                            editable={false}
+                            maxLength={40}
+                            onChangeText={text => setNotes(text)}
+                            value={getLocationText()}
+                        />
+                    </View>
+                </View>
+                <View style={styles.rowItem}>
+                    <Text style={styles.label}>Notes: </Text>
+                    <View style={styles.textInputContainer}>
+                        <TextInput
+                            maxLength={40}
+                            multiline
+                            onChangeText={text => setNotes(text)}
+                            value={notes}
+                        />
+                    </View>
+                </View>
+                <View style={styles.rowItem}>
+                    <Text style={styles.label}>Photo: </Text>
+                    <Button title='pick an image' onPress={pickImage} />
+                    <View style={styles.removeBtn}>
+                        {image && <Button title='Remove' color='red' onPress={() => setImage(null)} />}
+                    </View>
+                </View>
+                <View style={styles.imageContainer}>
+                    {image && <Image borderRadius={20} source={{ uri: image }} style={styles.image} />}
+                </View>
+                <View style={styles.submit}>
+                    <Button title='submit' onPress={onSubmit} />
                 </View>
             </View>
-            <View style={styles.rowItem}>
-                <Text style={styles.label}>Photo: </Text>
-                <Button title='pick an image' onPress={pickImage} />
-                <View style={styles.removeBtn}>
-                    {image && <Button title='Remove' color='red' onPress={() => setImage(null)} />}
-                </View>
-            </View>
-            <View style={styles.imageContainer}>
-                {image && <Image borderRadius={20} source={{ uri: image }} style={styles.image} />}
-            </View>
-            <View style={styles.submit}>
-                <Button title='submit' onPress={onSubmit} />
-            </View>
-        </View>
+        </Modal>
     );
 };
 
 const styles = StyleSheet.create({
+    container:{
+        marginHorizontal:20,
+        marginTop:20
+    },
     rowItem: {
         flexDirection: "row",
         alignItems: 'center',
@@ -179,7 +185,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
-        padding: 10,
+        marginTop: 10,
+        marginBottom:30,
         textAlign: 'center'
     },
     submit: {
