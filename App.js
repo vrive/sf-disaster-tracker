@@ -8,15 +8,28 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
-import County from './screens/CountiesScreen'
+import County from './screens/CountiesScreen';
 // import IncidentPage from './screens/IncidentsScreen'
-import MapsPage from './screens/MapScreen'
-import ReportPage from './screens/ReportPage'
+import { YellowBox } from 'react-native';
+import _ from 'lodash';;
+import MapsPage from './screens/MapScreen';
+import ReportPage from './screens/ReportPage';
 
 // const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const Settings = createStackNavigator();
+
+YellowBox.ignoreWarnings(['Setting a timer']);
+YellowBox.ignoreWarnings(['Setting a timer', 'Deprecation in'])
+const _console = _.clone(console);
+console.ignoredYellowBox = ['Setting a timer'];
+console.disableYellowBox = true
+console.warn = message => {
+  if (message.indexOf('Setting a timer') <= -1) {
+    _console.warn(message);
+  }
+};
 
 
 function Counties() {

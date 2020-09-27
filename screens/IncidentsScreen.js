@@ -24,6 +24,10 @@ const IncidentsScreen = props => {
         });
     };
 
+    const onClose = () =>{
+        setIsVisibleForm(false);
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.btn}>
@@ -33,6 +37,7 @@ const IncidentsScreen = props => {
                     onSubmit={onSubmit}
                     typesList={IncidentTypes}
                     county='Miami-Dade'   //<--------needs to be passed down from prop later
+                    onClose={onClose}
                 />
 
                 <View style={styles.btn}>
