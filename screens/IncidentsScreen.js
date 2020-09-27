@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Button, Alert, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import { Card, CardItem,ListItem, Icon, Divider } from 'react-native-elements'
+import { View, StyleSheet, Text, Image, Button, Alert, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { Card, ListItem, Icon } from 'react-native-elements'
 
 
 import AddItemForm from '../components/AddItemForm';
@@ -27,7 +27,7 @@ const IncidentsScreen = props => {
         });
     };
 
-    const onClose = () =>{
+    const onClose = () => {
         setIsVisibleForm(false);
     }
 
@@ -47,11 +47,11 @@ const IncidentsScreen = props => {
                 setIncidents(items);
             });
 
-            // Stop listening for updates when no longer required
+        // Stop listening for updates when no longer required
         return () =>
-        fb.GetResourcesRef(county)
-            .off('value', onValueChange);
-}, [isVisibleForm]);
+            fb.GetResourcesRef(county)
+                .off('value', onValueChange);
+    }, [isVisibleForm]);
 
     return (
         <View style={styles.container}>
@@ -69,34 +69,29 @@ const IncidentsScreen = props => {
                     <Button title='ADD' onPress={() => setIsVisibleForm(true)} />
                 </View>
             </View>
-            
-            {/* {incidents.map((item, index) => {
-                return (
-               <TouchableOpacity
-               key = {item.id}
-               style = {styles.text}>
-               <Text style = {styles.text}>{item.county} | {item.type} | {item.notes}</Text></TouchableOpacity> 
-                );
-            })} */}
 
-            <SafeAreaView>
-            <ScrollView >
-            <Card>
-            {incidents.map((item, index) => {
-                return (
-                    <View >
-                     <Card.Title>{item.county}</Card.Title>
-                     <Card.Divider/>
-                     <Card.Image source={{ uri: item.photo }} />
-                     <Text style={{fontSize: 20, paddingBottom:10}}>
-                         {item.type}
-                     </Text>
-                     <Divider style={{}}/>
-                    </View>
-                );
-            })}
-            </Card>
-            </ScrollView>
+
+            <SafeAreaView style={{ width: '100%' }}>
+                <ScrollView >
+
+                    {incidents.map((item, index) => {
+                        return (
+                            <View style={{ width: '100%' }} s>
+
+                                <Card style={styles.card} >
+
+                                    <Card.Title>{item.county}</Card.Title>
+                                    <Card.Divider />
+                                    <Card.Image source={{ uri: item.photo }}/>
+                                    <Text style={{}}>
+                                        {item.type}
+                                    </Text>
+                                </Card>
+                            </View>
+                        );
+                    })}
+
+                </ScrollView>
             </SafeAreaView>
         </View>
     );
@@ -105,29 +100,26 @@ const IncidentsScreen = props => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding:0,
-        margin: 10,
-        justifyContent: 'space-between',
-        
-
+        marginHorizontal: 20,
+        alignItems: 'center',
+       // flex: 1
     },
     card: {
-        flex:2,
-        backgroundColor: 'black',
-        paddingBottom: 10,
-        justifyContent:'space-between'
+        // width: 200,
+        // flex: 1,
+        backgroundColor: '#2089dc',
+        justifyContent: 'center',
     },
 
     btn: {
         width: '95%',
     },
     text: {
-      padding: 5,
-      width: '100%',
-      marginTop: 5,
-      backgroundColor: 'white',
-      alignItems: 'center',
+        padding: 5,
+        width: '100%',
+        marginTop: 5,
+        backgroundColor: 'white',
+        alignItems: 'center',
     }
 });
 
