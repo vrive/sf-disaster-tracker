@@ -15,6 +15,25 @@ class Firebase {
         }
     }
 
+    getImageRemoteUri = (image) =>{
+        const photoPath = `photos/${Date.now()}.jpg`;
+            return new Promise (async(res,rej)=>{
+                const response = await fetch(image);
+                const file = await response.blob();
+                let upload = firebase.storage().ref(photoPath).put(file);
+                upload.on('state_changed', snapshot=>{
+
+                },err=>{
+                    rej(err);
+
+                },async() => {
+                    const url = await upload.snapshot.ref.getDownloadURL();
+                    res(url);
+                }
+                )
+            })
+    }
+
     /**
      * Example of usage:
      * const fb = Firebase.shared;
@@ -23,54 +42,99 @@ class Firebase {
         fb.AddResource(item);
         }}/>
      */
-    AddIncident = (incident) => {
+    AddIncident = async (incident) => {
         const { type, location, photo, notes, county } = incident;
         if (!type || !location) {
             //type and location required
             return;
         }
-        firebase.database().ref('incidents').push(
-            {
-                type: type,
-                location: location,
-                photo: photo,
-                notes: notes,
-                county: county
-            },
-            (error) => {
-                if (error) {
-                    console.log(error);
+        if(photo){
+            const remoteUri = await this.getImageRemoteUri(photo);
+            return new Promise((res,rej)=>{
+                firebase.database().ref('incidents').push(
+                    {
+                        type: type,
+                        location: location,
+                        photo: remoteUri,
+                        notes: notes,
+                        county: county
+                    },
+                    (error) => {
+                        if (error) {
+                            console.log(error);
+                            rej(error);
+                        }
+                        res();
+                    }
+                );
+            })
+        }else{
+            firebase.database().ref('incidents').push(
+                {
+                    type: type,
+                    location: location,
+                    photo: photo,
+                    notes: notes,
+                    county: county
+                },
+                (error) => {
+                    if (error) {
+                        console.log(error);
+                    }
                 }
-            }
-        );
+            );
+        }
+        
     }
 
-    AddResource = (resource) => {
+    AddResource = async (resource) => {
         const { type, location, photo, notes, county } = resource;
         if (!type || !location) {
             //type and location required
             return;
         }
-        firebase.database().ref('resources').push(
-            {
-                type: type,
-                location: location,
-                photo: photo,
-                notes: notes,
-                county: county
-            },
-            (error) => {
-                if (error) {
-                    console.log(error);
+        if(photo){
+            const remoteUri = await this.getImageRemoteUri(photo);
+            return new Promise((res,rej)=>{
+                firebase.database().ref('resources').push(
+                    {
+                        type: type,
+                        location: location,
+                        photo: remoteUri,
+                        notes: notes,
+                        county: county
+                    },
+                    (error) => {
+                        if (error) {
+                            console.log(error);
+                            rej(error);
+                        }
+                        res();
+                    }
+                );
+            })
+        }else{
+            firebase.database().ref('resources').push(
+                {
+                    type: type,
+                    location: location,
+                    photo: photo,
+                    notes: notes,
+                    county: county
+                },
+                (error) => {
+                    if (error) {
+                        console.log(error);
+                    }
                 }
-            }
-        );
+            );
+        }
     }
 
-    getResources = (county) => {
-        // if(!county){
-        //     return [];
-        // }
+    GetResources = (county) => {
+        if(!county){
+            return [];
+        }
         firebase.database().ref('resources')
             .orderByChild("county")
             .equalTo(county)
@@ -85,7 +149,7 @@ class Firebase {
             })
     }
 
-    getIncidents = (county) => {
+    GetIncidents = (county) => {
         if(!county){
             return [];
         }
