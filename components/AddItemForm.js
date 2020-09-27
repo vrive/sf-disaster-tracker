@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Platform, TextInput, Button, Image, Alert, Moda
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+import { Icon } from 'react-native-elements'
 
 /*
 Example of how to use, must set the following props
@@ -93,8 +94,15 @@ const AddItemForm = props => {
     };
 
     return (
-        <Modal visible={props.visible} animationType='slide'>
+        <Modal visible={props.visible} animationType='slide' >
             <View style={styles.container}>
+                <Icon
+                    name='close'
+                    color='red'
+                    reverse
+                    onPress={() => props.onClose()}
+                    size={13}
+                />
                 <Text style={styles.title}>{props.header}</Text>
                 <View style={styles.rowItem}>
                     <Text style={styles.label}>Type: </Text>
@@ -151,9 +159,9 @@ const AddItemForm = props => {
 };
 
 const styles = StyleSheet.create({
-    container:{
-        marginHorizontal:20,
-        marginTop:20
+    container: {
+        marginHorizontal: 20,
+        marginTop: 20
     },
     rowItem: {
         flexDirection: "row",
@@ -185,8 +193,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
-        marginTop: 10,
-        marginBottom:30,
+        marginBottom: 30,
         textAlign: 'center'
     },
     submit: {

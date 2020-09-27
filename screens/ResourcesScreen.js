@@ -22,6 +22,10 @@ const ResourcesScreen = props => {
         });
     };
 
+    const onClose = () =>{
+        setIsVisibleForm(false);
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.btn}>
@@ -30,6 +34,7 @@ const ResourcesScreen = props => {
                     onSubmit={onSubmit}
                     typesList={ResourceTypes}
                     county='Miami-Dade'   //<--------needs to be passed down from prop later
+                    onClose={onClose}
                 />
 
                 <View style={styles.btn}>
