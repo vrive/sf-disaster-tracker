@@ -21,10 +21,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.2.tar.gz",
-<<<<<<< HEAD
-=======
     "react-native-dropdown-picker": "^3.6.8",
->>>>>>> master
     "react-native-elements": "^2.3.2",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-maps": "^0.27.1",
