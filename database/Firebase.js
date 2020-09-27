@@ -15,23 +15,23 @@ class Firebase {
         }
     }
 
-    getImageRemoteUri = (image) =>{
+    getImageRemoteUri = (image) => {
         const photoPath = `photos/${Date.now()}.jpg`;
-            return new Promise (async(res,rej)=>{
-                const response = await fetch(image);
-                const file = await response.blob();
-                let upload = firebase.storage().ref(photoPath).put(file);
-                upload.on('state_changed', snapshot=>{
+        return new Promise(async (res, rej) => {
+            const response = await fetch(image);
+            const file = await response.blob();
+            let upload = firebase.storage().ref(photoPath).put(file);
+            upload.on('state_changed', snapshot => {
 
-                },err=>{
-                    rej(err);
+            }, err => {
+                rej(err);
 
-                },async() => {
-                    const url = await upload.snapshot.ref.getDownloadURL();
-                    res(url);
-                }
-                )
-            })
+            }, async () => {
+                const url = await upload.snapshot.ref.getDownloadURL();
+                res(url);
+            }
+            )
+        })
     }
 
     /**
@@ -48,9 +48,9 @@ class Firebase {
             //type and location required
             return;
         }
-        if(photo){
+        if (photo) {
             const remoteUri = await this.getImageRemoteUri(photo);
-            return new Promise((res,rej)=>{
+            return new Promise((res, rej) => {
                 firebase.database().ref('incidents').push(
                     {
                         type: type,
@@ -68,7 +68,7 @@ class Firebase {
                     }
                 );
             })
-        }else{
+        } else {
             firebase.database().ref('incidents').push(
                 {
                     type: type,
@@ -84,7 +84,7 @@ class Firebase {
                 }
             );
         }
-        
+
     }
 
     AddResource = async (resource) => {
@@ -93,9 +93,9 @@ class Firebase {
             //type and location required
             return;
         }
-        if(photo){
+        if (photo) {
             const remoteUri = await this.getImageRemoteUri(photo);
-            return new Promise((res,rej)=>{
+            return new Promise((res, rej) => {
                 firebase.database().ref('resources').push(
                     {
                         type: type,
@@ -113,7 +113,7 @@ class Firebase {
                     }
                 );
             })
-        }else{
+        } else {
             firebase.database().ref('resources').push(
                 {
                     type: type,
@@ -132,40 +132,28 @@ class Firebase {
     }
 
     GetResources = (county) => {
-        if(!county){
-            return [];
+        if (!county) {
+            return new Promise((res, rej) => res([]));
         }
-        firebase.database().ref('resources')
+        return firebase.database().ref('resources')
             .orderByChild("county")
             .equalTo(county)
             .once('value', function (snapshot) {
-                let arr = [];
-                obj = snapshot.val();
-                for(key in obj){
-                    arr.push(obj[key]);
-                }
-
-                return arr;
+                return snapshot.val();
             })
     }
 
     GetIncidents = (county) => {
-        if(!county){
-            return [];
+        if (!county) {
+            return new Promise((res, rej) => res([]));
         }
-        firebase.database().ref('incidents')
+
+        return firebase.database().ref('incidents')
             .orderByChild("county")
             .equalTo(county)
             .once('value', function (snapshot) {
-                let arr = [];
-                console.log(snapshot.val());
-                obj = snapshot.val();
-                for(key in obj){
-                    arr.push(obj[key]);
-                }
-
-                return arr;
-            })
+                return snapshot.val();
+            });
     }
 
 }
