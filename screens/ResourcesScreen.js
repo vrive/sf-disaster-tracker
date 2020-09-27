@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Button, Alert } from 'react-native';
+import { View, StyleSheet, Text, Button, Alert, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { Card, ListItem, Icon } from 'react-native-elements'
 
 import AddItemForm from '../components/AddItemForm';
 import Firebase from '../database/Firebase';
@@ -9,6 +10,7 @@ import Resource from '../models/Resource';
 
 const fb = Firebase.shared;
 
+const numColumns = 3;
 const ResourcesScreen = props => {
     const [isVisibleForm, setIsVisibleForm] = useState(false);
     const [resources, setResources] = useState([]);
@@ -65,12 +67,44 @@ const ResourcesScreen = props => {
                     <Button title='ADD' onPress={() => setIsVisibleForm(true)} />
                 </View>
             </View>
+            <SafeAreaView >
+            <ScrollView>
+            <Card style={styles.card} >
             {resources.map((item, index) => {
                 return (
-                    <Text>{JSON.stringify(item)}</Text>
+                    <View>
+                     <Card.Title>{item.county}</Card.Title>
+                     <Card.Divider/>
+                     <Card.Image src={item.photo} />
+                     <Text style={{}}>
+                         {item.type}
+                     </Text>
+                    </View>
                 );
             })}
+            </Card>
+            </ScrollView>
+            </SafeAreaView >
+
+                {/* <SafeAreaView style={styles.container}>
+                <FlatList 
+                data={resources}
+                numColumns = {numColumns}
+                renderItem={({item}) => (
+                    <Card containerStyle={styles.card}>
+                    <CardItem>
+                    <Thumbnail src={item.photo}/>
+                    </CardItem>
+                    <TouchableOpacity>
+                      <Text>{item.type}</Text>
+                      <Text>{item.notes}</Text>
+                    </TouchableOpacity>
+                  </Card>
+                )}
+                />
+            </SafeAreaView> */}
         </View>
+        
     );
 };
 
@@ -78,6 +112,12 @@ const styles = StyleSheet.create({
     container: {
         marginHorizontal: 20,
         alignItems: 'center'
+    },
+    card: {
+        backgroundColor: '#2089dc',
+        marginVertical: 10,
+        width: 100, height: 100,
+        justifyContent: 'center',
     },
     btn: {
         width: '95%',
