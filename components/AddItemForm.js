@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Platform, TextInput, Button, Image, Alert, Modal, Picker } from 'react-native';
+import { View, StyleSheet, ScrollView, SafeAreaView,Text, Platform, TextInput, Button, Image, Alert, Modal, Picker } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
@@ -97,6 +97,8 @@ const AddItemForm = props => {
     };
 
     return (
+        <SafeAreaView >
+        <ScrollView>
         <Modal visible={props.visible} animationType='slide' >
             <View style={styles.container}>
                 <Icon
@@ -158,6 +160,8 @@ const AddItemForm = props => {
                 </View>
             </View>
         </Modal>
+        </ScrollView>
+        </SafeAreaView>
     );
 };
 

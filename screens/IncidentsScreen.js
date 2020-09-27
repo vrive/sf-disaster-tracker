@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Button, Alert, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import { Card, ListItem, Icon } from 'react-native-elements'
+import { Card, CardItem,ListItem, Icon, Divider } from 'react-native-elements'
 
 
 import AddItemForm from '../components/AddItemForm';
@@ -80,17 +80,18 @@ const IncidentsScreen = props => {
             })} */}
 
             <SafeAreaView>
-            <ScrollView>
-            <Card style={styles.card} >
+            <ScrollView >
+            <Card>
             {incidents.map((item, index) => {
                 return (
-                    <View>
+                    <View >
                      <Card.Title>{item.county}</Card.Title>
                      <Card.Divider/>
-                     <Card.Image src={item.photo} />
-                     <Text style={{}}>
+                     <Card.Image source={{ uri: item.photo }} />
+                     <Text style={{fontSize: 20, paddingBottom:10}}>
                          {item.type}
                      </Text>
+                     <Divider style={{}}/>
                     </View>
                 );
             })}
@@ -104,18 +105,22 @@ const IncidentsScreen = props => {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 20,
-        alignItems: 'center',
-        width: '100%'
+        flex: 1,
+        padding:0,
+        margin: 10,
+        justifyContent: 'space-between',
+        
+
     },
     card: {
-        backgroundColor: '#2089dc',
-        justifyContent: 'center',
+        flex:2,
+        backgroundColor: 'black',
+        paddingBottom: 10,
+        justifyContent:'space-between'
     },
+
     btn: {
         width: '95%',
-        marginBottom: 15,
-        marginTop: 10
     },
     text: {
       padding: 5,

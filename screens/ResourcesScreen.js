@@ -75,7 +75,7 @@ const ResourcesScreen = props => {
                     <View>
                      <Card.Title>{item.county}</Card.Title>
                      <Card.Divider/>
-                     <Card.Image src={item.photo} />
+                     <Card.Image source={{ uri: item.photo }} />
                      <Text style={{}}>
                          {item.type}
                      </Text>
@@ -110,13 +110,14 @@ const ResourcesScreen = props => {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 20,
-        alignItems: 'center'
+        flex: 1,
+        padding: 0,
     },
     card: {
         backgroundColor: '#2089dc',
-        marginVertical: 10,
-        width: 100, height: 100,
+        margin: 20,
+        width: '100%', 
+        height: 100,
         justifyContent: 'center',
     },
     btn: {
