@@ -28,7 +28,10 @@ const MapScreen = props => {
 
     useEffect(() => {
         //MUST change 'broward' to correct value from prop!
-        const onValueChange = fb.GetIncidentsRef("Broward")
+        const county = 'Broward';
+        const onValueChange = fb.GetIncidentsRef(county)
+            .orderByChild("county")
+            .equalTo(county)
             .on('value', snapshot => {
                 let items = [];
                 let obj = snapshot.val();
@@ -49,13 +52,16 @@ const MapScreen = props => {
 
         // Stop listening for updates when no longer required
         return () =>
-            fb.GetIncidentsRef("Broward")
+            fb.GetIncidentsRef(county)
                 .off('value', onValueChange);
     }, []);
 
     useEffect(() => {
         //MUST change 'broward' to correct value from prop!
-        const onValueChange = fb.GetResourcesRef("Broward")
+        const county = 'Broward';
+        const onValueChange = fb.GetResourcesRef(county)
+            .orderByChild("county")
+            .equalTo(county)
             .on('value', snapshot => {
                 let items = [];
                 let obj = snapshot.val();
@@ -76,7 +82,7 @@ const MapScreen = props => {
 
         // Stop listening for updates when no longer required
         return () =>
-            fb.GetIncidentsRef("Broward")
+            fb.GetIncidentsRef(county)
                 .off('value', onValueChange);
     }, []);
 
